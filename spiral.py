@@ -24,10 +24,10 @@ def new_direction(x, y, state):
 
 
 def spiral(rows, cols):
-	# initialize empty array
+    # initialize empty array
     result = [[0] * cols for row in xrange(rows)]
 
-	# initial state
+    # initial state
     x, y = (0, 0)
     state = LEFT
     counter = 1
