@@ -3,9 +3,6 @@ DOWN = 1
 RIGHT = 2
 UP = 3
 
-def mat_print(matrix):
-    for row in matrix:
-        print row
 
 def change_state(prev_state):
     if prev_state == LEFT:
@@ -19,14 +16,7 @@ def change_state(prev_state):
     raise ValueError(prev_state)
 
 
-def statestr(state):
-    if state == LEFT: return "LEFT"
-    if state == RIGHT: return "RIGHT"
-    if state == UP: return "UP"
-    if state == DOWN: return "DOWN"
-
-
-def direction(x, y, state):
+def new_direction(x, y, state):
     if state == LEFT:   return (x+1, y)
     if state == RIGHT:  return (x-1, y)
     if state == UP:     return (x, y-1)
@@ -34,20 +24,21 @@ def direction(x, y, state):
 
 
 def spiral(rows, cols):
+	# initialize empty array
     result = [[0] * cols for row in xrange(rows)]
+
+	# initial state
     x, y = (0, 0)
     state = LEFT
     counter = 1
 
-    # adjust for indices
+    # adjust for first step taken
     moves = cols-1
-
-    pairs = []
 
     while cols > 0 and rows > 0:
         while moves > 0:
             result[y][x] = counter
-            x, y = direction(x, y, state)
+            x, y = new_direction(x, y, state)
             moves -= 1
             counter += 1
 
