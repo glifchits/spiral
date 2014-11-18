@@ -98,5 +98,4 @@ class TestSpiral(unittest.TestCase):
 
 
 if __name__ == "__main__":
-    #mat_print(spiral(5, 4))
     unittest.main()
