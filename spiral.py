@@ -4,7 +4,7 @@ RIGHT = 2
 UP = 3
 
 
-def change_state(prev_state):
+def new_state(prev_state):
     if prev_state == LEFT:
         return DOWN
     elif prev_state == DOWN:
@@ -17,32 +17,41 @@ def change_state(prev_state):
 
 
 def new_direction(x, y, state):
-    if state == LEFT:   return (x+1, y)
-    if state == RIGHT:  return (x-1, y)
-    if state == UP:     return (x, y-1)
-    if state == DOWN:   return (x, y+1)
+    if state == LEFT:
+        return (x+1, y)
+    elif state == RIGHT:
+        return (x-1, y)
+    elif state == UP:
+        return (x, y-1)
+    elif state == DOWN:
+        return (x, y+1)
+    raise ValueError(state)
 
 
 def spiral(rows, cols):
     # initialize empty array
     result = [[0] * cols for row in xrange(rows)]
 
-    # initial state
+    # set initial state
     x, y = (0, 0)
     state = LEFT
+    moves = cols
     counter = 1
 
-    # adjust for first step taken
-    moves = cols-1
+    # record the initial step
+    result[y][x] = counter
+    moves -= 1
+    counter += 1
 
     while cols > 0 and rows > 0:
         while moves > 0:
-            result[y][x] = counter
+            # take a step
             x, y = new_direction(x, y, state)
+            result[y][x] = counter
             moves -= 1
             counter += 1
 
-        state = change_state(state)
+        state = new_state(state)
         if state in (UP, DOWN):
             rows -= 1
             moves = rows
@@ -50,7 +59,6 @@ def spiral(rows, cols):
             cols -= 1
             moves = cols
 
-    result[y][x] = counter
     return result
 
 
@@ -94,6 +102,13 @@ class TestSpiral(unittest.TestCase):
             [7, 6, 5],
         ]
         result = spiral(3, 3)
+        self.assertEqual(expected, result)
+
+    def test_14(self):
+        expected = [
+            [1, 2, 3, 4]
+        ]
+        result = spiral(1, 4)
         self.assertEqual(expected, result)
 
 
